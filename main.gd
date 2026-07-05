@@ -1,13 +1,13 @@
 extends Node2D
 
-@onready var status_label = $CanvasLayer/Control/Label # Crie um nó Label na cena
+@onready var status_label = $CanvasLayer/Control/Label
 
 var socket = WebSocketPeer.new()
 var url = "ws://127.0.0.1:8080" 
 
 func _ready():
 	if not has_node("Label"):
-		print("AVISO: Crie um nó 'Label' para ver o status na tela.")
+		print("Crie um nó 'Label' para ver o status na tela.")
 	else:
 		status_label.text = "Conectando no GMM Server..."
 		
@@ -23,10 +23,8 @@ func _process(_delta):
 			var packet = socket.get_packet()
 			var text = packet.get_string_from_utf8()
 			
-			# Parse do JSON com segurança
 			var data = JSON.parse_string(text)
 			
-			# Se o data for válido e for um dicionário
 			if typeof(data) == TYPE_DICTIONARY and data.has("cmd"):
 				
 				if data["cmd"] == "joined_server":
